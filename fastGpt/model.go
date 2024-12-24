@@ -558,3 +558,84 @@ type UpdateDocReq struct {
 	Forbid     bool        `json:"forbid"`
 	CreateTime time.Time   `json:"createTime"`
 }
+
+type GetPointsReq struct {
+	Offset       int    `json:"offset"`
+	PageSize     int    `json:"pageSize"`
+	CollectionId string `json:"collectionId"`
+	SearchText   string `json:"searchText"`
+}
+
+type GetPointReq struct {
+	Id string `parm:"id"`
+}
+type GetPointResp struct {
+	Code       int    `json:"code"`
+	StatusText string `json:"statusText"`
+	Message    string `json:"message"`
+	Data       struct {
+		Id         string `json:"id"`
+		Q          string `json:"q"`
+		A          string `json:"a"`
+		ChunkIndex int    `json:"chunkIndex"`
+		Indexes    []struct {
+			DefaultIndex bool   `json:"defaultIndex"`
+			Type         string `json:"type"`
+			DataId       string `json:"dataId"`
+			Text         string `json:"text"`
+			Id           string `json:"_id"`
+		} `json:"indexes"`
+		DatasetId    string `json:"datasetId"`
+		CollectionId string `json:"collectionId"`
+		SourceName   string `json:"sourceName"`
+		SourceId     string `json:"sourceId"`
+		IsOwner      bool   `json:"isOwner"`
+		CanWrite     bool   `json:"canWrite"`
+	} `json:"data"`
+}
+
+type UpdatePointReq struct {
+	DataId  string `json:"dataId"`
+	Q       string `json:"q"`
+	A       string `json:"a"`
+	Indexes []struct {
+		DataId       string `json:"dataId,omitempty"`
+		DefaultIndex bool   `json:"defaultIndex,omitempty"`
+		Text         string `json:"text"`
+	} `json:"indexes"`
+}
+
+type UpdatePointResp struct {
+	Code       int         `json:"code"`
+	StatusText string      `json:"statusText"`
+	Message    string      `json:"message"`
+	Data       interface{} `json:"data"`
+}
+type DeletePointReq struct {
+	Id string `parm:"id"`
+}
+
+type AddPointsReq struct {
+	CollectionId string `json:"collectionId"`
+	TrainingMode string `json:"trainingMode"`
+	Prompt       string `json:"prompt"`
+	BillId       string `json:"billId"`
+	Data         []struct {
+		Q       string `json:"q"`
+		A       string `json:"a"`
+		Indexes []struct {
+			Text string `json:"text"`
+		} `json:"indexes,omitempty"`
+	} `json:"data"`
+}
+
+type AddPointsResp struct {
+	Code       int    `json:"code"`
+	StatusText string `json:"statusText"`
+	Data       struct {
+		InsertLen int           `json:"insertLen"`
+		OverToken []interface{} `json:"overToken"`
+		Repeat    []interface{} `json:"repeat"`
+		Error     []interface{} `json:"error"`
+	} `json:"data"`
+}

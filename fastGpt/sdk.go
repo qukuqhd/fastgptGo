@@ -160,6 +160,51 @@ func (s *FastGptSdkClient) UpdateDoc(req *UpdateDocReq) (*CommonResp, error) {
 	return &resp, err
 }
 
+// GetPoints 获取文档知识点列表
+func (s *FastGptSdkClient) GetPoints(req *GetPointsReq) (*CommonResp, error) {
+	var resp CommonResp
+	err := s.httpCli.SendObjParse(http.MethodPost, s.baseUrl+"core/dataset/data/v2/list", req, &resp)
+	return &resp, err
+}
+
+// GetPointInfo 获取知识点信息
+func (s *FastGptSdkClient) GetPointInfo(req *GetPointsReq) (*GetPointResp, error) {
+	resp, err := s.httpCli.SendParameter(http.MethodGet, s.baseUrl+"core/dataset/data/detail", req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	var respInfo GetPointResp
+	err = json.NewDecoder(resp.Body).Decode(&respInfo)
+	return &respInfo, err
+}
+
+// UpdatePoint 更新知识点
+func (s *FastGptSdkClient) UpdatePoint(req *UpdatePointReq) (*UpdatePointResp, error) {
+	var resp UpdatePointResp
+	err := s.httpCli.SendObjParse(http.MethodPut, s.baseUrl+"core/dataset/data/update", req, &resp)
+
+	return &resp, err
+}
+
+// DeletePoint 删除知识点
+func (s *FastGptSdkClient) DeletePoint(req *DeletePointReq) (*CommonResp, error) {
+	resp, err := s.httpCli.SendParameter(http.MethodDelete, s.baseUrl+"core/dataset/data/delete", req)
+	if err != nil {
+		return nil, err
+	}
+	var respInfo CommonResp
+	err = json.NewDecoder(resp.Body).Decode(&respInfo)
+	return &respInfo, err
+}
+
+// AddPoint 添加知识点
+func (s *FastGptSdkClient) AddPoint(req *AddPointsReq) (*AddPointsResp, error) {
+	var resp AddPointsResp
+	err := s.httpCli.SendObjParse(http.MethodPost, s.baseUrl+"core/dataset/data/pushData", req, &resp)
+	return &resp, err
+}
+
 //// NoStreamChat 非流式聊天
 //func (s *FastGptSdkClient) NoStreamChat(req *ChatReq) (*NoStreamResp, error) {
 //	var resp NoStreamResp
