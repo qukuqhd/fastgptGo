@@ -125,6 +125,41 @@ func (s *FastGptSdkClient) GetAppChatHistoryRecords(req *GetChatRecordsReq) (*Ge
 	return &resp, err
 }
 
+// ListDoc 知识库的集合列表获取
+func (s *FastGptSdkClient) ListDoc(req *ListDocReq) (*ListDocResp, error) {
+	var resp ListDocResp
+	err := s.httpCli.SendObjParse(http.MethodPost, "core/dataset/collection/list", req, &resp)
+	return &resp, err
+}
+
+// GetDetailDoc 获取文档详细信息
+func (s *FastGptSdkClient) GetDetailDoc(req *GetDetailDocReq) (*CommonResp, error) {
+	resp, err := s.httpCli.SendParameter(http.MethodGet, s.baseUrl+"core/dataset/collection/detail", req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	var respInfo CommonResp
+	err = json.NewDecoder(resp.Body).Decode(&respInfo)
+	return &respInfo, err
+}
+
+// DeleteDoc 删除文档
+func (s *FastGptSdkClient) DeleteDoc(req *DeleteDocReq) (*DeleteDocResp, error) {
+	resp, err := s.httpCli.SendParameter(http.MethodDelete, s.baseUrl+"core/dataset/collection/delete", req)
+	defer resp.Body.Close()
+	var respInfo DeleteDocResp
+	err = json.NewDecoder(resp.Body).Decode(&respInfo)
+	return &respInfo, err
+}
+
+// UpdateDoc 更新文档
+func (s *FastGptSdkClient) UpdateDoc(req *UpdateDocReq) (*CommonResp, error) {
+	var resp CommonResp
+	err := s.httpCli.SendObjParse(http.MethodPut, s.baseUrl+"core/dataset/collection/update", req, &resp)
+	return &resp, err
+}
+
 //// NoStreamChat 非流式聊天
 //func (s *FastGptSdkClient) NoStreamChat(req *ChatReq) (*NoStreamResp, error) {
 //	var resp NoStreamResp

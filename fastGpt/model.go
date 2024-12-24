@@ -493,3 +493,68 @@ type StreamResp struct {
 		} `json:"choices"`
 	} `json:"data"`
 }
+
+type ListDocReq struct {
+	PageNum    int         `json:"pageNum"`
+	PageSize   int         `json:"pageSize"`
+	DatasetId  string      `json:"datasetId"`
+	ParentId   interface{} `json:"parentId"`
+	SearchText string      `json:"searchText"`
+}
+
+type ListDocResp struct {
+	Code       int    `json:"code"`
+	StatusText string `json:"statusText"`
+	Message    string `json:"message"`
+	Data       struct {
+		PageNum  int `json:"pageNum"`
+		PageSize int `json:"pageSize"`
+		Data     []struct {
+			Id             string      `json:"_id"`
+			ParentId       interface{} `json:"parentId"`
+			TmbId          string      `json:"tmbId"`
+			Type           string      `json:"type"`
+			Name           string      `json:"name"`
+			UpdateTime     time.Time   `json:"updateTime"`
+			DataAmount     int         `json:"dataAmount"`
+			TrainingAmount int         `json:"trainingAmount"`
+			ExternalFileId string      `json:"externalFileId"`
+			Tags           []string    `json:"tags"`
+			Forbid         bool        `json:"forbid"`
+			TrainingType   string      `json:"trainingType"`
+			Permission     struct {
+				Value        int64 `json:"value"`
+				IsOwner      bool  `json:"isOwner"`
+				HasManagePer bool  `json:"hasManagePer"`
+				HasWritePer  bool  `json:"hasWritePer"`
+				HasReadPer   bool  `json:"hasReadPer"`
+			} `json:"permission"`
+			RawLink string `json:"rawLink,omitempty"`
+		} `json:"data"`
+		Total int `json:"total"`
+	} `json:"data"`
+}
+
+type GetDetailDocReq struct {
+	Id string `parm:"id"`
+}
+
+type DeleteDocReq struct {
+	Id string `parm:"id"`
+}
+
+type DeleteDocResp struct {
+	Code       int         `json:"code"`
+	StatusText string      `json:"statusText"`
+	Message    string      `json:"message"`
+	Data       interface{} `json:"data"`
+}
+
+type UpdateDocReq struct {
+	Id         string      `json:"id"`
+	ParentId   interface{} `json:"parentId"`
+	Name       string      `json:"name"`
+	Tags       []string    `json:"tags"`
+	Forbid     bool        `json:"forbid"`
+	CreateTime time.Time   `json:"createTime"`
+}
