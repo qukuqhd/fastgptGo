@@ -125,10 +125,10 @@ func (s *FastGptSdkClient) GetAppChatHistoryRecords(req *GetChatRecordsReq) (*Ge
 	return &resp, err
 }
 
-// ListDoc 知识库的集合列表获取
+// ListDoc 知识库的集合列表获取core
 func (s *FastGptSdkClient) ListDoc(req *ListDocReq) (*ListDocResp, error) {
 	var resp ListDocResp
-	err := s.httpCli.SendObjParse(http.MethodPost, "core/dataset/collection/list", req, &resp)
+	err := s.httpCli.SendObjParse(http.MethodPost, s.baseUrl+"core/dataset/collection/list", req, &resp)
 	return &resp, err
 }
 
