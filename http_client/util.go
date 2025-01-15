@@ -28,6 +28,7 @@ func GetParam[T any](obj T) (map[string]any, error) {
 				}
 				result[tag_name] = obj_value.Field(i).Interface()
 			}
+			return result, nil
 		}
 	default:
 		{
@@ -37,7 +38,6 @@ func GetParam[T any](obj T) (map[string]any, error) {
 			}, nil
 		}
 	}
-	return nil, nil
 }
 
 // ParseFormTag 解析表单标签 type:str;name:data;file_name:aaa
