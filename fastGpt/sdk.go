@@ -147,6 +147,9 @@ func (s *FastGptSdkClient) GetDetailDoc(req *GetDetailDocReq) (*CommonResp, erro
 // DeleteDoc 删除文档
 func (s *FastGptSdkClient) DeleteDoc(req *DeleteDocReq) (*DeleteDocResp, error) {
 	resp, err := s.httpCli.SendParameter(http.MethodDelete, s.baseUrl+"core/dataset/collection/delete", req)
+	if err != nil {
+		return nil, err
+	}
 	defer resp.Body.Close()
 	var respInfo DeleteDocResp
 	err = json.NewDecoder(resp.Body).Decode(&respInfo)
